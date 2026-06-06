@@ -6,4 +6,4 @@
  * - Em produção (Vercel): defina a env VITE_SITE_URL no painel da Vercel,
  *   ex.: VITE_SITE_URL=https://visiontech.vercel.app
  */
-export const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'http://localhost:5173'
+export const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'https://visiontech-8b.vercel.app/'
