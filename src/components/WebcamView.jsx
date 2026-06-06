@@ -3,7 +3,9 @@ import { glassesCatalog } from '../data/glasses.js'
 import { useGlasses } from '../context/GlassesContext.jsx'
 import { useFaceLandmarker } from '../hooks/useFaceLandmarker.js'
 import { createGlassesRenderer } from '../utils/drawGlasses.js'
+import { buildSouvenir } from '../utils/buildSouvenir.js'
 import Button from './Button.jsx'
+import SouvenirModal from './SouvenirModal.jsx'
 
 /**
  * Provador virtual completo:
@@ -28,6 +30,10 @@ export default function WebcamView() {
 
   const [camState, setCamState] = useState('idle') // idle | loading | active | error
   const [capturedPhoto, setCapturedPhoto] = useState(null)
+
+  // Lembrança (souvenir) gerada após a captura.
+  const [souvenir, setSouvenir] = useState(null) // dataURL ou null
+  const [souvenirOpen, setSouvenirOpen] = useState(false)
 
   // Modelo ativo: o selecionado no catálogo ou o primeiro como fallback.
   const activeGlasses = selectedGlasses ?? glassesCatalog[0]
@@ -143,7 +149,18 @@ export default function WebcamView() {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
     if (overlay) ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height)
 
-    setCapturedPhoto(canvas.toDataURL('image/png'))
+    const photo = canvas.toDataURL('image/png')
+    setCapturedPhoto(photo)
+
+    // Gera a lembrança e abre o modal de resultado (não altera a captura).
+    setSouvenir(null)
+    setSouvenirOpen(true)
+    buildSouvenir(photo)
+      .then((dataUrl) => setSouvenir(dataUrl))
+      .catch((err) => {
+        console.error('Erro ao gerar a lembrança:', err)
+        setSouvenirOpen(false)
+      })
   }
 
   const meshLabel = {
@@ -282,24 +299,36 @@ export default function WebcamView() {
         {/* Última captura */}
         <div className="rounded-2xl bg-slate-900/60 p-5 ring-1 ring-white/10">
           <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-            Última captura
+            Lembrança
           </h3>
           {capturedPhoto ? (
             <div className="mt-4 space-y-3">
-              <img src={capturedPhoto} alt="Foto capturada" className="w-full rounded-xl" />
-              <a
-                href={capturedPhoto}
-                download="visiontech-tryon.png"
-                className="block text-center text-sm font-semibold text-brand-400 hover:text-brand-300"
+              <img
+                src={souvenir ?? capturedPhoto}
+                alt="Lembrança VisionTech"
+                className="w-full rounded-xl"
+              />
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => setSouvenirOpen(true)}
               >
-                ⬇ Baixar foto
-              </a>
+                Ver lembrança
+              </Button>
             </div>
           ) : (
             <p className="mt-4 text-sm text-slate-500">Nenhuma foto capturada ainda.</p>
           )}
         </div>
       </aside>
+
+      {souvenirOpen && (
+        <SouvenirModal
+          src={souvenir}
+          loading={!souvenir}
+          onClose={() => setSouvenirOpen(false)}
+        />
+      )}
     </div>
   )
 }
