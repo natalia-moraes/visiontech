@@ -44,18 +44,19 @@ const pngMeme = png('meme.png')
 const models = [
   {
     id: 'aurora',
-    name: 'Aurora',
-    description: 'Armação redonda em metal leve, ideal para o dia a dia.',
+    name: 'Nerd Chique',
+    description: 'Redondo retrô com lente oceano — pra quem é gênio e sabe.',
     price: 'R$ 349',
     shape: 'round',
     color: '1f57eb',
     overlayPng: pngRedondo,
+    lens: { from: '#38bdf8', to: '#4f46e5' }, // lente colorida: Oceano (azul→roxo)
     fit: { widthFactor: 1.0, offsetY: 0.02 },
   },
   {
     id: 'nebula',
-    name: 'Nebula',
-    description: 'Acetato quadrado com pegada retrô e toque moderno.',
+    name: 'Chefão',
+    description: 'Quadrado de acetato, lente fumê. Modo sério ativado.',
     price: 'R$ 399',
     shape: 'square',
     color: '7c3aed',
@@ -64,42 +65,46 @@ const models = [
   },
   {
     id: 'orbit',
-    name: 'Orbit',
-    description: 'Modelo aviador clássico com lentes polarizadas.',
+    name: 'Maverick',
+    description: 'Aviador clássico com lente pôr do sol. Pronto pra decolar.',
     price: 'R$ 459',
     shape: 'aviator',
     color: '0ea5e9',
     overlayPng: pngAviador,
+    lens: { from: '#ffb24d', to: '#ff4d7d' }, // lente colorida: Pôr do sol (laranja→rosa)
     fit: { widthFactor: 1.0, offsetY: 0.05 },
   },
   {
     id: 'pulse',
-    name: 'Pulse',
-    description: 'Esportivo e resistente, perfeito para atividades ao ar livre.',
+    name: 'Maromba',
+    description: 'Esportivo neon que não para na academia.',
     price: 'R$ 529',
     shape: 'sport',
     color: '059669',
     overlayPng: pngColorido,
+    lens: { from: '#a3e635', to: '#06b6d4' }, // lente colorida: Neon (limão→ciano)
     fit: { widthFactor: 1.05, offsetY: 0.0 },
   },
   {
     id: 'lumen',
-    name: 'Lumen',
-    description: 'Design minimalista sem aro, ultraleve e discreto.',
+    name: 'Modo Sussa',
+    description: 'Minimalista gelo, leve e de boa. Sem firula.',
     price: 'R$ 489',
     shape: 'rimless',
     color: 'db2777',
     overlayPng: pngRetangularMas,
+    lens: { from: '#c4b5fd', to: '#60a5fa' }, // lente colorida: Gelo (lilás→azul claro)
     fit: { widthFactor: 1.0, offsetY: 0.02 },
   },
   {
     id: 'vortex',
-    name: 'Vortex',
-    description: 'Armação gatinho ousada para um visual marcante.',
+    name: 'Gata Bacana',
+    description: 'Gatinho rosa ousado pra arrasar na feira.',
     price: 'R$ 419',
     shape: 'cat',
     color: 'ea580c',
     overlayPng: pngMeme,
+    lens: { from: '#fb7185', to: '#d946ef' }, // lente colorida: Rosa (rosa→magenta)
     fit: { widthFactor: 1.02, offsetY: -0.02 },
   },
 ]
@@ -108,7 +113,7 @@ const DEFAULT_FIT = { widthFactor: 1, offsetY: 0, smoothing: 0.4 }
 
 export const glassesCatalog = models.map((model) => {
   // SVG premium gerado vetorialmente — usado SOMENTE no provador virtual.
-  const svg = buildGlassesSvg({ shape: model.shape, color: model.color })
+  const svg = buildGlassesSvg({ shape: model.shape, color: model.color, lens: model.lens })
   return {
     ...model,
     fit: { ...DEFAULT_FIT, ...model.fit },

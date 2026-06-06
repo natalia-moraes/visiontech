@@ -81,10 +81,22 @@ function reflections(cx, clip) {
     </g>`
 }
 
-export function buildGlassesSvg({ shape = 'round', color = '1f57eb' } = {}) {
+export function buildGlassesSvg({ shape = 'round', color = '1f57eb', lens = null } = {}) {
   const base = norm(color)
   const st = STYLES[shape] ?? STYLES.round
   const { stroke: W, io, bar, pads } = st
+
+  // Lente: colorida translúcida (se o modelo definir `lens`) ou escura padrão.
+  const lensGradient = lens
+    ? `<linearGradient id="lens" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="${norm(lens.from)}" stop-opacity="0.50"/>
+      <stop offset="100%" stop-color="${norm(lens.to)}" stop-opacity="0.62"/>
+    </linearGradient>`
+    : `<linearGradient id="lens" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#3a4150" stop-opacity="0.52"/>
+      <stop offset="50%"  stop-color="#1b2130" stop-opacity="0.60"/>
+      <stop offset="100%" stop-color="#0a0e17" stop-opacity="0.68"/>
+    </linearGradient>`
 
   const leftLens = lensEl(shape, LEFT_CX, -1)
   const rightLens = lensEl(shape, RIGHT_CX, 1)
@@ -122,12 +134,8 @@ export function buildGlassesSvg({ shape = 'round', color = '1f57eb' } = {}) {
       <stop offset="74%"  stop-color="${darken(base, 0.3)}"/>
       <stop offset="100%" stop-color="${darken(base, 0.05)}"/>
     </linearGradient>
-    <!-- lente escura tipo óculos de sol (cinza-escuro -> quase preto), translúcida -->
-    <linearGradient id="lens" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#3a4150" stop-opacity="0.52"/>
-      <stop offset="50%"  stop-color="#1b2130" stop-opacity="0.60"/>
-      <stop offset="100%" stop-color="#0a0e17" stop-opacity="0.68"/>
-    </linearGradient>
+    <!-- lente (colorida ou escura, conforme o modelo) -->
+    ${lensGradient}
     <clipPath id="clipL">${leftLens}</clipPath>
     <clipPath id="clipR">${rightLens}</clipPath>
   </defs>

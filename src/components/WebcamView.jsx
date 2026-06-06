@@ -171,8 +171,12 @@ export default function WebcamView() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-      {/* Área central: vídeo + canvas sobreposto */}
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-900 ring-1 ring-white/10">
+      {/* Área central: vídeo + canvas sobreposto.
+          No mobile usa retrato (mais alto) e no desktop 16:9. */}
+      <div
+        id="tryon-stage"
+        className="relative aspect-[3/4] w-full scroll-mt-20 overflow-hidden rounded-2xl bg-slate-900 ring-1 ring-white/10 sm:aspect-video"
+      >
         <video
           ref={videoRef}
           playsInline
@@ -197,7 +201,7 @@ export default function WebcamView() {
                 <p className="mt-4 text-slate-400">
                   Ative a câmera para iniciar o provador virtual.
                 </p>
-                <Button className="mt-6" onClick={startCamera}>
+                <Button className="mt-6 whitespace-nowrap" onClick={startCamera}>
                   Ativar câmera
                 </Button>
               </div>
@@ -212,7 +216,7 @@ export default function WebcamView() {
                   Não foi possível acessar a câmera. Verifique as permissões do
                   navegador.
                 </p>
-                <Button className="mt-6" variant="ghost" onClick={startCamera}>
+                <Button className="mt-6 whitespace-nowrap" variant="ghost" onClick={startCamera}>
                   Tentar novamente
                 </Button>
               </div>

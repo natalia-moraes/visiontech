@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useGlasses } from '../context/GlassesContext.jsx'
 import WebcamView from '../components/WebcamView.jsx'
@@ -5,6 +6,14 @@ import Button from '../components/Button.jsx'
 
 export default function TryOn() {
   const { selectedGlasses } = useGlasses()
+
+  // Ao abrir (ex.: após "Selecionar"), traz a área da câmera para o topo —
+  // importante no mobile, onde o resumo do modelo empurrava a câmera para baixo.
+  useEffect(() => {
+    document
+      .getElementById('tryon-stage')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [selectedGlasses?.id])
 
   return (
     <section className="container-max py-14">
