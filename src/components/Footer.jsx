@@ -14,6 +14,15 @@ export default function Footer() {
           © {new Date().getFullYear()} VisionTech — Projeto fictício para feira do
           conhecimento escolar.
         </p>
+        {/* Acesso discreto ao "modo vitrine" (abre em nova guia, p/ o 2º notebook) */}
+        <a
+          href="/vitrine"
+          target="_blank"
+          rel="noreferrer"
+          className="text-xs text-slate-600 transition-colors hover:text-brand-400"
+        >
+          Vitrine ↗
+        </a>
       </div>
     </footer>
   )
