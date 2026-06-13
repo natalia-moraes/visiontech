@@ -14,7 +14,7 @@ export const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'https://visiontech-8b.
  * Edite livremente — são usados pelo Canvas em src/utils/buildSouvenir.js.
  */
 export const SOUVENIR = {
-  fairName: 'Feira de Tecnologia 2026',
+  fairName: 'Feira do Conhecimento 2026',
   group: 'Grupo Vision Tech',
   phrase: 'Obrigado por participar da experiência',
 }

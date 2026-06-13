@@ -11,8 +11,8 @@ export default function Footer() {
           </span>
         </div>
         <p className="text-sm text-slate-500">
-          © {new Date().getFullYear()} VisionTech — Projeto fictício para feira de
-          tecnologia escolar.
+          © {new Date().getFullYear()} VisionTech — Projeto fictício para feira do
+          conhecimento escolar.
         </p>
       </div>
     </footer>
